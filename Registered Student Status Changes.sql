@@ -22,14 +22,14 @@ INSERT INTO customer.RegisteredStatusByCourseMap (InitialSySchoolStatusID,SyStat
 (61,5,'Y',92,'Status Change from Provisionally ReAdmit to Registered Provisionally ReAdmit',GetDate(),''),
 (79,5,'Y',93,'Status Change from Accepted to Registered Accepted',GetDate(),''),
 (7,7,'Y',94,'Status Change from ReEntry(Re-Entry Category) to Registered ReEntry',GetDate(),''),
-(100,5,'Y',94,'Status Change from ReEntry(FutureStart Category) to Registered ReEntry',GetDate(),''),
+(105,5,'Y',94,'Status Change from ReEntry(FutureStart Category) to Registered ReEntry',GetDate(),''),
 (96,5,'Y',95,'Status Change from ReAdmit to Registered ReAdmit',GetDate(),''),
 --Reverse Staus
 (90,5,'N',60,'Status Change from Registered Provisionally Accepted to Provisionally Accepted',GetDate(),''),
 (91,5,'N',89,'Status Change from Registered Provisionally ReEntry to Provisionally ReEntry',GetDate(),''),
 (92,5,'N',61,'Status Change from Registered Provisionally ReAdmit to Provisionally ReAdmit',GetDate(),''),
 (93,5,'N',79,'Status Change from Registered Accepted to Accepted',GetDate(),''),
-(94,5,'N',100,'Status Change from Registered ReEntry to ReEntry',GetDate(),''),
+(94,5,'N',105,'Status Change from Registered ReEntry to ReEntry',GetDate(),''),
 (95,5,'N',96,'Status Change from Registered ReAdmit to ReAdmit',GetDate(),'')
 GO
 
@@ -51,8 +51,8 @@ CONSTRAINT [PK_RegisteredStatusByPOGMap] PRIMARY KEY
 GO
 INSERT INTO customer.RegisteredStatusByPOGMap(InitialSySchoolStatusID,SyStatusID,FinalSySchoolStatusID,[Description],DateAdded,DateLstMod)VALUES
 (60,5,79,'Status Change (Provisionally Accepted, POG => Accepted)',GETDATE(),''),
-(101,7,100,'Status Change (Provisionally ReEntry,POG => ReEntry)',GETDATE(),''),
-(89,5,100,'Status Change (Provisionally ReEntry,POG => ReEntry)',GETDATE(),''),
+(101,7,105,'Status Change (Provisionally ReEntry,POG => ReEntry)',GETDATE(),''),
+(89,5,105,'Status Change (Provisionally ReEntry,POG => ReEntry)',GETDATE(),''),
 (61,5,96,'Status Change (Provisionally ReAdmit,POG => ReAdmit)',GETDATE(),''),
 (90,5,93,'Status Change (Registered Provisionally Accepted, POG => Registered Accepted)',GETDATE(),''),
 (91,5,94,'Status Change (Registered Provisionally ReEntry,POG => Registered ReEntry)',GETDATE(),''),
@@ -75,7 +75,7 @@ GO
 
 Insert Into customer.RegisteredStatusByCategoryMap (InitialSySchoolStatusID,FinalSySchoolStatusID,[Description],DateAdded,DateLstMod)Values
 (101,89,'Status Change from Provisioanlly Re-Entry(Re-Entry Category) to Provisioanlly Re-Entry(Future Start Category)',GETDATE(),''),
-(7,100,'Status Change from Re-Entry(Re-Entry Category) to Re-Entry(Future Start Category)',GETDATE(),'')
+(7,105,'Status Change from Re-Entry(Re-Entry Category) to Re-Entry(Future Start Category)',GETDATE(),'')
 GO
 
 --*******************************************CUSTOMER_SCHEMA--Si_Configurations & SP*****************************************************************************
