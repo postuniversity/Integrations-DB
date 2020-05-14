@@ -1,3 +1,4 @@
+-- Database Scripts
 --WORKFLOW#1 SCRIPTS
 DROP TABLE customer.RegisteredStatusByCourseMap
 GO
