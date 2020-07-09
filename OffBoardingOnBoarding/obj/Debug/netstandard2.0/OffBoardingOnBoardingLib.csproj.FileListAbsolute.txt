@@ -1,0 +1,5 @@
+C:\Users\keskilla\source\repos\OffBoardingOnBoardingLib\bin\Debug\netstandard2.0\OffBoardingOnBoardingLib.deps.json
+C:\Users\keskilla\source\repos\OffBoardingOnBoardingLib\bin\Debug\netstandard2.0\OffBoardingOnBoardingLib.dll
+C:\Users\keskilla\source\repos\OffBoardingOnBoardingLib\obj\Debug\netstandard2.0\OffBoardingOnBoardingLib.csprojAssemblyReference.cache
+C:\Users\keskilla\source\repos\OffBoardingOnBoardingLib\obj\Debug\netstandard2.0\OffBoardingOnBoardingLib.AssemblyInfoInputs.cache
+C:\Users\keskilla\source\repos\OffBoardingOnBoardingLib\obj\Debug\netstandard2.0\OffBoardingOnBoardingLib.AssemblyInfo.cs
