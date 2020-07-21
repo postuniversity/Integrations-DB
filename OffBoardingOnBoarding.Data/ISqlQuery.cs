@@ -4,8 +4,11 @@ using System.Text;
 
 namespace OffBoardingOnBoarding.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface ISqlQuery
     {
-        void GenerateFileFromSqlQuery();
+        int GenerateFileFromSqlQuery();
     }
 }

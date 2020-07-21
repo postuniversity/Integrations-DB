@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OffBoardingOnBoarding.Data
+﻿namespace OffBoardingOnBoarding.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IODataQuery
     {
-      void GenerateFileFromOdataQuery();
-
+      int GenerateFileFromOdataQuery(string odataQuery, string cnsAPIKey);
     }
 }

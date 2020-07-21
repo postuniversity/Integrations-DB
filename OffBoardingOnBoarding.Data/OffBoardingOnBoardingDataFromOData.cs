@@ -8,48 +8,55 @@ using System.Net.Http;
 
 namespace OffBoardingOnBoarding.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class OffBoardingOnBoardingDataFromOData : IODataQuery
-    {
-        //private  readonly Log log = new Log(Logger);
-        private readonly Log log = new Log();
-
-        //public static ILog Logger { get; }
-
-        public void GenerateFileFromOdataQuery()
-        {
-            String getOdataUrl = ConfigurationManager.AppSettings["OdataQuery"].ToString();
-            String apiKeyValue = ConfigurationManager.AppSettings["CNSApiKey"].ToString();
+    {    
+        public int GenerateFileFromOdataQuery(string odataQuery, string cnsAPIKey)
+        {             
             try
-            {
-                int j = 0;
-                String jsonString = "";
-                String fileHeader = string.Empty;
-                String fileData = string.Empty;
-
+            {                
+                var odataResult = string.Empty;
+                //http call to get odata query
                 using (HttpClient client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("ApiKey", apiKeyValue);
+                    //add apikey to headers
+                    client.DefaultRequestHeaders.Add("ApiKey", cnsAPIKey);
                     //Get response from Odata Query
-                    HttpResponseMessage response = client.GetAsync(getOdataUrl).Result;
-                    response.EnsureSuccessStatusCode();
+                    var httpResponse = client.GetAsync(odataQuery).Result;
+                    httpResponse.EnsureSuccessStatusCode();
                     //Output from OdataQuery
-                    jsonString = response.Content.ReadAsStringAsync().Result;
+                    odataResult = httpResponse.Content.ReadAsStringAsync().Result;
                 }
-
                 //Get all root values in dictionary as results[Deserializing json string] 
-                JObject jsonObject = JObject.Parse(jsonString);
-                IEnumerable<JToken> jTokens = jsonObject.Descendants().Where(p => p.Count() == 0);
-
-                Dictionary<string, string> results = jTokens.Aggregate(new Dictionary<string, string>(), (properties, jToken) =>
-                {
-                    properties.Add(jToken.Path, jToken.ToString());
-                    return properties;
-                });
-                results.Remove(results.Keys.First());
-
+                var jsonData = getDataFromJSON(odataResult);
                 //Write the dictionary data to file
-                using (FileStream fs = new FileStream(String.Format(ConfigurationManager.AppSettings["FileFolder"].ToString() + ConfigurationManager.AppSettings["FileName"].ToString(), DateTime.Now.ToString("yyyyMMddHHmmss")), FileMode.CreateNew, FileAccess.ReadWrite))
+                GenerateFile(jsonData);                
+                //log.Message("GenerateFileFromOdataQuery", "File Generated Successfully", "Info", "", null);
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+                //throw ;
+                log.Message("GenerateFileFromOdataQuery", "", "Error", "", ex);                
+            }
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="results"></param>
+        private void GenerateFile(Dictionary<string, string> results)
+        {
+            String fileHeader = string.Empty;
+            String fileData = string.Empty;
+            int j = 0;
+            string fileFormatted = ConfigurationManager.AppSettings["FileFolder"].ToString() + ConfigurationManager.AppSettings["FileName"].ToString();
+
+            using (FileStream fs = new FileStream(String.Format(fileFormatted, DateTime.Now.ToString("yyyyMMddHHmmss")), FileMode.CreateNew, FileAccess.ReadWrite))
+            {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
                     //Header(1st row)
@@ -80,15 +87,29 @@ namespace OffBoardingOnBoarding.Data
                     }
                     sw.Write(fileData);
                 }
-               log.Message("GenerateFileFromOdataQuery", "File Generated Successfully", "Info", "", null);
-
-            }
-
-            catch (Exception ex)
-            {
-                log.Message("GenerateFileFromOdataQuery", "", "Error", "", ex);
             }
         }
-      
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="odataResult"></param>
+        /// <returns></returns>
+        private static Dictionary<string, string> getDataFromJSON(string odataResult)
+        {
+            JObject jsonObject = JObject.Parse(odataResult);
+
+            IEnumerable<JToken> jTokens = jsonObject.Descendants().Where(p => p.Count() == 0);
+
+            //get json nodes as Key,Values
+            Dictionary<string, string> results = jTokens.Aggregate(new Dictionary<string, string>(), (properties, jToken) =>
+            {
+                properties.Add(jToken.Path, jToken.ToString());
+                return properties;
+            });
+            //remove first value which is not usefule @odatacontext....
+            results.Remove(results.Keys.First());
+            return results;
+        }
     }
 }
